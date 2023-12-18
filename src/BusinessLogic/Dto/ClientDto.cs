@@ -1,6 +1,6 @@
-namespace DataAccess;
+namespace BusinessLogic;
 
-public record DbClient
+public record ClientDto
 {
     private readonly string? _id;
     
@@ -17,5 +17,5 @@ public record DbClient
 
     public string WalletId { get; init; } = string.Empty;
 
-    public virtual DbWallet? Wallet { get; init; }
+    public WalletDto? Wallet { get; init; }
 }

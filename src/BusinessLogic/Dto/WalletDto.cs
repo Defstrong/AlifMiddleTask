@@ -1,6 +1,8 @@
-namespace DataAccess;
+using DataAccess;
 
-public record DbWallet
+namespace BusinessLogic;
+
+public sealed record WalletDto
 {
     private readonly string? _id;
 
@@ -15,7 +17,7 @@ public record DbWallet
 
     public WalletStatus Status { get; init; }
 
-    public virtual DbClient? Client { get; init; }
+    public ClientDto? Client { get; init; }
 
-    public virtual ICollection<DbWalletTransaction>? WalletTrancations { get; init; }
+    public ICollection<WalletTransactionDto>? WalletTransactions { get; init; }
 }

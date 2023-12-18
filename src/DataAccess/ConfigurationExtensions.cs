@@ -38,7 +38,7 @@ public static class ConfigurationExtension
         return currentEnv switch
         {
             DevelopmentEnvironmentName => configuration.GetConnectionString(ConnectionStringName) ?? string.Empty,
-            _ => GetConnectionStringFromEnv(),
+            _ => GetConnectionStringFromEnv()
         };
     }
 }

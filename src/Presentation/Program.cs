@@ -1,5 +1,5 @@
 using Presentation;
-using BuisnessLogic;
+using BusinessLogic;
 
 var builder = WebApplication.CreateBuilder(args);
 
