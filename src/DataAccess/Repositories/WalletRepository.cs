@@ -9,20 +9,20 @@ public sealed class WalletRepository : BaseRepository<DbWallet>, IWalletReposito
 
     public Task<bool> CheckAsync(string id, CancellationToken cancellationToken = default)
         => _db.Wallets.AnyAsync(wallet => wallet.Id == id, cancellationToken);
-    
+
     public async Task<TransactionSummary> TransactionsSummnaryAsync(string id, CancellationToken cancellationToken = default)
     {
         decimal totalAmount = await _db.WalletsTransactions
-            .Where(walletTransaction => walletTransaction.WalletId == id 
+            .Where(walletTransaction => walletTransaction.WalletId == id
                 && walletTransaction.Status == TransactionStatus.Successfully
                 && walletTransaction.TimeOfTransacition.Month == DateTime.Now.Month)
-            .SumAsync(walletTransaction => walletTransaction.Quantity);
-        
+            .SumAsync(walletTransaction => walletTransaction.Quantity, cancellationToken);
+
         int totalOperations = await _db.WalletsTransactions
-            .CountAsync(walletTransaction => walletTransaction.WalletId == id 
+            .CountAsync(walletTransaction => walletTransaction.WalletId == id
                 && walletTransaction.Status == TransactionStatus.Successfully
-                && walletTransaction.TimeOfTransacition.Month == DateTime.Now.Month);
-        
+                && walletTransaction.TimeOfTransacition.Month == DateTime.Now.Month, cancellationToken);
+
         return new () { TotalAmount = totalAmount, TotalOperations = totalOperations };
     }
 

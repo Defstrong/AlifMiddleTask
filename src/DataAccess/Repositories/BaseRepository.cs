@@ -43,10 +43,10 @@ public class BaseRepository<T> : IBaseRepository<T>
             yield return entity;
     }
 
-    public async Task<bool> UpdateAsync(T entity, CancellationToken cancellatoken = default)
+    public async Task<bool> UpdateAsync(T entity, CancellationToken cancellationToken = default)
     {
         _db.Entry(entity).State = EntityState.Modified;
-        int updateResult = await _db.SaveChangesAsync(cancellatoken);
+        int updateResult = await _db.SaveChangesAsync(cancellationToken);
         return updateResult > 0;
     }
 }
