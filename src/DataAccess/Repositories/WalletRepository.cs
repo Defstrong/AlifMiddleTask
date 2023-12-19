@@ -8,14 +8,23 @@ public sealed class WalletRepository : BaseRepository<DbWallet>, IWalletReposito
     public WalletRepository(AlifDbContext db) : base(db) => _db = db;
 
     public Task<bool> CheckAsync(string id, CancellationToken cancellationToken = default)
-        => _db.Wallets.AnyAsync(wallet => wallet.Id == id);
+        => _db.Wallets.AnyAsync(wallet => wallet.Id == id, cancellationToken);
     
-    public Task<decimal> SumOfTransactionsAsync(string id, CancellationToken cancellationToken = default)
-        => _db.WalletsTransactions
+    public async Task<TransactionSummary> TransactionsSummnaryAsync(string id, CancellationToken cancellationToken = default)
+    {
+        decimal totalAmount = await _db.WalletsTransactions
             .Where(walletTransaction => walletTransaction.WalletId == id 
                 && walletTransaction.Status == TransactionStatus.Successfully
                 && walletTransaction.TimeOfTransacition.Month == DateTime.Now.Month)
             .SumAsync(walletTransaction => walletTransaction.Quantity);
+        
+        int totalOperations = await _db.WalletsTransactions
+            .CountAsync(walletTransaction => walletTransaction.WalletId == id 
+                && walletTransaction.Status == TransactionStatus.Successfully
+                && walletTransaction.TimeOfTransacition.Month == DateTime.Now.Month);
+        
+        return new () { TotalAmount = totalAmount, TotalOperations = totalOperations };
+    }
 
     public async Task<decimal> GetBalanceAsync(string id, CancellationToken cancellationToken = default)
     {

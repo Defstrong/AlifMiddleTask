@@ -14,39 +14,42 @@ public sealed class ClientService : IClientService
         _clientRepository = clientRepository;
     }
 
-    public Task<bool> CreateAsync(ClientDto model, CancellationToken token = default)
+    public Task<bool> CreateAsync(ClientDto model, CancellationToken cancellationToken = default)
     {
         ArgumentNullException.ThrowIfNull(model);
 
-        return _clientRepository.CreateAsync(model.DtoToClient(), token);
+        return _clientRepository.CreateAsync(model.DtoToClient(), cancellationToken);
     }
 
-    public Task<bool> DeleteAsync(string id, CancellationToken token = default)
+    public Task<bool> DeleteAsync(string id, CancellationToken cancellationToken = default)
     {
         ArgumentException.ThrowIfNullOrEmpty(id);
 
-        return _clientRepository.DeleteAsync(id, token);
+        return _clientRepository.DeleteAsync(id, cancellationToken);
     }
 
-    public async Task<ClientDto?> GetAsync(string id, CancellationToken token = default)
+    public async Task<ClientDto?> GetAsync(string id, CancellationToken cancellationToken = default)
     {
         ArgumentException.ThrowIfNullOrEmpty(id);
 
-        DbClient? dbclient = await _clientRepository.GetAsync(id, token);
+        DbClient? dbclient = await _clientRepository.GetAsync(id, cancellationToken);
         return dbclient?.ClientToDto();
     }
 
-    public async IAsyncEnumerable<ClientDto> GetAsync([EnumeratorCancellation] CancellationToken token = default)
+    public async IAsyncEnumerable<ClientDto> GetAsync([EnumeratorCancellation] CancellationToken cancellationToken = default)
     {
-        await foreach (DbClient clientDto in _clientRepository.GetAsync(token))
+        await foreach (DbClient clientDto in _clientRepository.GetAsync(cancellationToken))
             yield return clientDto.ClientToDto();
     }
 
-    public Task<bool> UpdateAsync(ClientDto model, CancellationToken token = default)
+    public Task<bool> UpdateAsync(ClientDto model, CancellationToken cancellationToken = default)
     {
         ArgumentNullException.ThrowIfNull(model);
 
         DbClient dbclient = model.DtoToClient();
-        return _clientRepository.UpdateAsync(dbclient, token);
+        return _clientRepository.UpdateAsync(dbclient, cancellationToken);
     }
+
+    public Task<bool> CheckAsync(string id, CancellationToken cancellationToken = default)
+        => _clientRepository.CheckAsync(id, cancellationToken);
 }

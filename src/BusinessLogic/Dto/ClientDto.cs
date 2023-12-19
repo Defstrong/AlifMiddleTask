@@ -1,9 +1,9 @@
 namespace BusinessLogic;
 
-public record ClientDto
+public sealed record ClientDto
 {
     private readonly string? _id;
-    
+
     public string Id
     {
         get => _id ?? string.Empty;
@@ -12,8 +12,6 @@ public record ClientDto
     }
 
     public string Name { get; init; } = string.Empty;
-
-    public string Digest { get; init; } = string.Empty;
 
     public string WalletId { get; init; } = string.Empty;
 

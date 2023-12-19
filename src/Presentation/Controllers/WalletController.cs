@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Presentation;
 
-[Route("wallet")]
+[Route("api/[controller]")]
 public class WalletController : ControllerBase
 {
     private readonly IWalletService _walletService;
@@ -21,16 +21,17 @@ public class WalletController : ControllerBase
         bool walletExists = await _walletService.CheckAsync(id, cancellationToken);
 
         if(walletExists)
-            return Ok(walletExists);
+            return Ok("Such a wallet exists");
 
-        return NotFound(walletExists);
+        return NotFound("No such wallet exists");
     }
 
     [HttpPost("toup")]
-    public async Task<IActionResult> ToUpAsync([FromBody]ToUpDto toUpDto, CancellationToken cancellationToken = default)
+    public async Task<IActionResult> ToUpAsync([FromBody] ToUpDto toUpDto, CancellationToken cancellationToken = default)
     {
-        if(toUpDto.Quantity <= 0)
-            return BadRequest("The amount for replenishment must be greater than 0.");
+        if(!ModelState.IsValid)
+            return Ok(ModelState.Values
+                .SelectMany(model => model.Errors.Select(error => error.ErrorMessage)));
 
         bool result = await _walletService.TopUpAsync(toUpDto, cancellationToken);
 
@@ -40,12 +41,12 @@ public class WalletController : ControllerBase
         return BadRequest("Wallet either not found or full.");
     }
 
-    [HttpPost("sumoftransactions/{id}")]
-    public async Task<IActionResult> SumOfTransactionsAsync(string id, CancellationToken cancellationToken = default)
+    [HttpPost("sum-of-transactions/{id}")]
+    public async Task<IActionResult> TransactionsSummnaryAsync(string id, CancellationToken cancellationToken = default)
     {
-        decimal result = await _walletService.SumOfTransactionsAsync(id, cancellationToken);
+        TransactionSummaryDto transactionSummaryDto = await _walletService.TransactionsSummnaryAsync(id, cancellationToken);
         
-        return Ok(result);
+        return Ok(transactionSummaryDto);
     }
 
     [HttpPost("balance/{id}")]

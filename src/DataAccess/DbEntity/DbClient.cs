@@ -13,8 +13,6 @@ public record DbClient
 
     public string Name { get; init; } = string.Empty;
 
-    public string Digest { get; init; } = string.Empty;
-
     public string WalletId { get; init; } = string.Empty;
 
     public virtual DbWallet? Wallet { get; init; }

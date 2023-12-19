@@ -14,40 +14,40 @@ public sealed class WalletService : IWalletService
         _walletRepository = walletRepository;
     }
 
-    public Task<bool> CreateAsync(WalletDto model, CancellationToken token = default)
+    public Task<bool> CreateAsync(WalletDto model, CancellationToken cancellationToken = default)
     {
         ArgumentNullException.ThrowIfNull(model);
 
-        return _walletRepository.CreateAsync(model.DtoToWallet(), token);
+        return _walletRepository.CreateAsync(model.DtoToWallet(), cancellationToken);
     }
 
-    public Task<bool> DeleteAsync(string id, CancellationToken token = default)
+    public Task<bool> DeleteAsync(string id, CancellationToken cancellationToken = default)
     {
         ArgumentException.ThrowIfNullOrEmpty(id);
 
-        return _walletRepository.DeleteAsync(id, token);
+        return _walletRepository.DeleteAsync(id, cancellationToken);
     }
 
-    public async Task<WalletDto?> GetAsync(string id, CancellationToken token = default)
+    public async Task<WalletDto?> GetAsync(string id, CancellationToken cancellationToken = default)
     {
         ArgumentException.ThrowIfNullOrEmpty(id);
 
-        DbWallet? dbwallet = await _walletRepository.GetAsync(id, token);
+        DbWallet? dbwallet = await _walletRepository.GetAsync(id, cancellationToken);
         return dbwallet?.WalletToDto();
     }
 
-    public async IAsyncEnumerable<WalletDto> GetAsync([EnumeratorCancellation] CancellationToken token = default)
+    public async IAsyncEnumerable<WalletDto> GetAsync([EnumeratorCancellation] CancellationToken cancellationToken = default)
     {
-        await foreach (DbWallet walletDto in _walletRepository.GetAsync(token))
+        await foreach (DbWallet walletDto in _walletRepository.GetAsync(cancellationToken))
             yield return walletDto.WalletToDto();
     }
 
-    public Task<bool> UpdateAsync(WalletDto model, CancellationToken token = default)
+    public Task<bool> UpdateAsync(WalletDto model, CancellationToken cancellationToken = default)
     {
         ArgumentNullException.ThrowIfNull(model);
 
         DbWallet dbwallet = model.DtoToWallet();
-        return _walletRepository.UpdateAsync(dbwallet, token);
+        return _walletRepository.UpdateAsync(dbwallet, cancellationToken);
     }
 
     public Task<bool> CheckAsync(string id, CancellationToken cancellationToken = default)
@@ -65,7 +65,7 @@ public sealed class WalletService : IWalletService
 
         if(wallet is null) return false;
 
-        bool result = ValidBalance(wallet, toUpDto.Quantity);
+        bool result = wallet.ValidBalance(toUpDto.Quantity);
 
         wallet.Balance += result ? toUpDto.Quantity : 0;
 
@@ -83,11 +83,13 @@ public sealed class WalletService : IWalletService
         return result;
     }
 
-    public Task<decimal> SumOfTransactionsAsync(string id, CancellationToken cancellationToken = default)
+    public async Task<TransactionSummaryDto> TransactionsSummnaryAsync(string id, CancellationToken cancellationToken = default)
     {
         ArgumentException.ThrowIfNullOrEmpty(id);
 
-        return _walletRepository.SumOfTransactionsAsync(id, cancellationToken);
+        TransactionSummary transactionSummary = await _walletRepository.TransactionsSummnaryAsync(id, cancellationToken);
+
+        return transactionSummary.TransactionSummaryToDto();
     }
 
     public Task<decimal> GetBalanceAsync(string id, CancellationToken cancellationToken = default)
@@ -96,12 +98,4 @@ public sealed class WalletService : IWalletService
 
         return _walletRepository.GetBalanceAsync(id, cancellationToken);
     }
-
-    public bool ValidBalance(DbWallet wallet, decimal quantity)
-        => wallet switch
-        {
-            { Balance: decimal balance , Status: WalletStatus.Unidentified } when (balance + quantity) <= 10_000 => true,
-            { Balance: decimal balance , Status: WalletStatus.Identified } when (balance + quantity) <= 100_000 => true,
-            _ => false
-        };
 }

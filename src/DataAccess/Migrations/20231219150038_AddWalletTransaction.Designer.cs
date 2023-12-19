@@ -12,7 +12,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace DataAccess.Migrations
 {
     [DbContext(typeof(AlifDbContext))]
-    [Migration("20231218164359_AddWalletTransaction")]
+    [Migration("20231219150038_AddWalletTransaction")]
     partial class AddWalletTransaction
     {
         /// <inheritdoc />
@@ -33,11 +33,6 @@ namespace DataAccess.Migrations
                     b.Property<string>("Id")
                         .HasColumnType("VARCHAR")
                         .HasColumnName("id");
-
-                    b.Property<string>("Digest")
-                        .IsRequired()
-                        .HasColumnType("VARCHAR")
-                        .HasColumnName("digest");
 
                     b.Property<string>("Name")
                         .IsRequired()
@@ -60,14 +55,12 @@ namespace DataAccess.Migrations
                         new
                         {
                             Id = "4f2e5dd4-f012-4f44-b0ee-9cc924610476",
-                            Digest = "",
                             Name = "First Client",
                             WalletId = "524c1940-3df9-4332-8041-d560e285aff2"
                         },
                         new
                         {
                             Id = "de9cddb0-5673-4616-8019-04de8673af1b",
-                            Digest = "",
                             Name = "Second Client",
                             WalletId = "1ef8c2da-4ac1-461b-a205-603fa8fd88cf"
                         });
@@ -139,7 +132,7 @@ namespace DataAccess.Migrations
                             Id = "443112df-5112-493b-b863-6029245de36e",
                             Quantity = 2023m,
                             Status = 1,
-                            TimeOfTransacition = new DateTime(2023, 11, 18, 21, 43, 59, 82, DateTimeKind.Local).AddTicks(1348),
+                            TimeOfTransacition = new DateTime(2023, 11, 19, 20, 0, 38, 749, DateTimeKind.Local).AddTicks(4512),
                             WalletId = "524c1940-3df9-4332-8041-d560e285aff2"
                         },
                         new
@@ -147,7 +140,7 @@ namespace DataAccess.Migrations
                             Id = "0d12654d-dd56-47c6-8001-35c781d59d55",
                             Quantity = 2024m,
                             Status = 1,
-                            TimeOfTransacition = new DateTime(2023, 12, 18, 21, 43, 59, 82, DateTimeKind.Local).AddTicks(1379),
+                            TimeOfTransacition = new DateTime(2023, 12, 19, 20, 0, 38, 749, DateTimeKind.Local).AddTicks(4540),
                             WalletId = "524c1940-3df9-4332-8041-d560e285aff2"
                         },
                         new
@@ -155,7 +148,7 @@ namespace DataAccess.Migrations
                             Id = "a048a76f-c935-41d6-a76a-802b463bd5ce",
                             Quantity = 12000m,
                             Status = 0,
-                            TimeOfTransacition = new DateTime(2023, 12, 18, 21, 43, 59, 82, DateTimeKind.Local).AddTicks(1382),
+                            TimeOfTransacition = new DateTime(2023, 12, 19, 20, 0, 38, 749, DateTimeKind.Local).AddTicks(4543),
                             WalletId = "524c1940-3df9-4332-8041-d560e285aff2"
                         },
                         new
@@ -163,7 +156,7 @@ namespace DataAccess.Migrations
                             Id = "b15e419f-9402-4714-8b13-584387db7b70",
                             Quantity = 2023m,
                             Status = 1,
-                            TimeOfTransacition = new DateTime(2023, 11, 18, 21, 43, 59, 82, DateTimeKind.Local).AddTicks(1385),
+                            TimeOfTransacition = new DateTime(2023, 11, 19, 20, 0, 38, 749, DateTimeKind.Local).AddTicks(4545),
                             WalletId = "1ef8c2da-4ac1-461b-a205-603fa8fd88cf"
                         },
                         new
@@ -171,7 +164,7 @@ namespace DataAccess.Migrations
                             Id = "ff5fbe30-a4aa-4e85-8919-1c76a6ded6ce",
                             Quantity = 2024m,
                             Status = 1,
-                            TimeOfTransacition = new DateTime(2023, 12, 18, 21, 43, 59, 82, DateTimeKind.Local).AddTicks(1388),
+                            TimeOfTransacition = new DateTime(2023, 12, 19, 20, 0, 38, 749, DateTimeKind.Local).AddTicks(4548),
                             WalletId = "1ef8c2da-4ac1-461b-a205-603fa8fd88cf"
                         },
                         new
@@ -179,7 +172,7 @@ namespace DataAccess.Migrations
                             Id = "9be32e58-8e3c-40d7-be0a-bb155d20e570",
                             Quantity = 120000m,
                             Status = 0,
-                            TimeOfTransacition = new DateTime(2023, 12, 18, 21, 43, 59, 82, DateTimeKind.Local).AddTicks(1391),
+                            TimeOfTransacition = new DateTime(2023, 12, 19, 20, 0, 38, 749, DateTimeKind.Local).AddTicks(4550),
                             WalletId = "1ef8c2da-4ac1-461b-a205-603fa8fd88cf"
                         });
                 });

@@ -22,12 +22,6 @@ public sealed class ClientConfiguration : IEntityTypeConfiguration<DbClient>
             .HasColumnName("name")
             .HasColumnType("VARCHAR")
             .IsRequired();
-        
-        builder
-            .Property(client => client.Digest)
-            .HasColumnName("digest")
-            .HasColumnType("VARCHAR")
-            .IsRequired();
 
         builder
             .Property(client => client.WalletId)
