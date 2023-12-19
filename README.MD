@@ -53,21 +53,7 @@ git clone https://github.com/Defstrong/AlifMiddleTask.git
 ```bash
 cd AlifMiddleTask
 ```
-#### 3. Соберите проэкт:
-``` bash
-dotnet build
-```
-#### 4.Перейдите по директории для запуска API:
-``` bash
-cd src/Presentation
-```
-
-#### 5.Запустите приложение:
-```bash
-dotnet run
-```
-
-#### 6.Обновите конфигурацию API в соответствии с вашими
+#### 3.Обновите конфигурацию API в соответствии с вашими
 > Но для того чтоб логирование работало нормально поместить это в файл конфигурации API:
 ```json
   "Serilog": {
@@ -88,6 +74,20 @@ dotnet run
     "Enrich": [ "FromLogContext", "WithMachineName", "WithThreadId" ]
   },
 ```
+#### 4. Соберите проэкт:
+``` bash
+dotnet build
+```
+#### 5.Перейдите по директории для запуска API:
+``` bash
+cd src/Presentation
+```
+
+#### 6.Запустите приложение:
+```bash
+dotnet run
+```
+
 
 #### 7. Используйте API!
 
